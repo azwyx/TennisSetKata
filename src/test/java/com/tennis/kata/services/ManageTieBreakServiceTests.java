@@ -21,7 +21,7 @@ import static org.mockito.Matchers.any;
 public class ManageTieBreakServiceTests {
 
     @Mock
-    private ManageTennisSetServiceImpl manageTennisSetService;
+    private IManageTennisSetService manageTennisSetService;
 
     @InjectMocks
     private ManageTieBreakServiceImpl manageTieBreakService;

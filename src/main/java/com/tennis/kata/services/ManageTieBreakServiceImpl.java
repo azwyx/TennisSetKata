@@ -7,11 +7,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
-public class ManageTieBreakServiceImpl{
+public class ManageTieBreakServiceImpl implements IManageTieBreakService{
 
     @Autowired
     IManageTennisSetService manageTennisSetService;
 
+    @Override
     public Match startTieBreak(Match match) {
         if(!match.getTennisSet().isTieBreakRule()) throw new RuntimeException("Tie Break Rule is not activated");
         match.getFirstPlayer().setTieBreakScore(0);
@@ -19,6 +20,7 @@ public class ManageTieBreakServiceImpl{
         return match;
     }
 
+    @Override
     public Player winPointInTieBreak(Match match, Player player) {
         if(manageTennisSetService.hasWinner(match.getTennisSet())) throw new RuntimeException("Set already won");
         Player player1 = checkValidPlayer(match, player);
@@ -29,6 +31,7 @@ public class ManageTieBreakServiceImpl{
         return player1;
     }
 
+    @Override
     public String getTieBreakScore(TennisSet tennisSet, Player firstPlayer, Player secondPlayer) {
         if(hasWinner(tennisSet, firstPlayer, secondPlayer))
             return "Tie Break Score : "+firstPlayer.getName()+" won the tie-break ("+firstPlayer.getTieBreakScore()+" / "+secondPlayer.getTieBreakScore()+")";
@@ -36,6 +39,7 @@ public class ManageTieBreakServiceImpl{
         return "Tie Break Score : "+firstPlayer.getName()+" "+firstPlayer.getTieBreakScore()+" / "+secondPlayer.getTieBreakScore()+" "+secondPlayer.getName();
     }
 
+    @Override
     public boolean hasWinner(TennisSet tennisSet, Player firstPlayer, Player secondPlayer) {
         if(tennisSet.isTieBreakRule() && getLeadPlayer(firstPlayer, secondPlayer).getTieBreakScore() >= 7 && Math.abs(firstPlayer.getTieBreakScore()-secondPlayer.getTieBreakScore()) >= 2) return true;
         return false;

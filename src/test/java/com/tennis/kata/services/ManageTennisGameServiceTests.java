@@ -13,20 +13,6 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Matchers.any;
 
-
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.runners.MockitoJUnitRunner;
-import static org.mockito.BDDMockito.given;
-import static org.mockito.Matchers.any;
-
-import java.util.stream.IntStream;
-
-import static org.assertj.core.api.Assertions.assertThat;
-
 import com.tennis.kata.entities.Game;
 import com.tennis.kata.entities.Match;
 import com.tennis.kata.entities.Player;
