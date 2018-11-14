@@ -1,28 +1,19 @@
 package com.tennis.kata.entities;
 
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+@Data
+@NoArgsConstructor
 public class Match {
 
-    public Match() {
+    private Player firstPlayer;
+    private Player secondPlayer;
+    private Game game;
+
+    public Match(Player firstPlayer, Player secondPlayer) {
         super();
-        // TODO Auto-generated constructor stub
-    }
-
-    public Match(Player amine, Player federer) {
-        super();
-    }
-
-    public void setGame(Game game) {
-    }
-
-    public Game getGame() {
-        return null;
-    }
-
-    public Player getFirstPlayer() {
-        return null;
-    }
-
-    public Player getSecondPlayer() {
-        return null;
+        this.firstPlayer = firstPlayer;
+        this.secondPlayer = secondPlayer;
     }
 }

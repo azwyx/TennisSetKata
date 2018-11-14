@@ -1,7 +1,14 @@
 package com.tennis.kata.entities;
 
+import lombok.Data;
+
+@Data
 public class Game {
 
+    private boolean deuceRule;
+    private boolean won;
+    private String winnerName;
+    /*
     public void setDeuceRule(boolean b) {
     }
 
@@ -11,5 +18,5 @@ public class Game {
 
     public boolean isWon() {
         return false;
-    }
+    }*/
 }

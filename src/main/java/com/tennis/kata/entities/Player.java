@@ -1,29 +1,23 @@
 package com.tennis.kata.entities;
 
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+@Data
+@NoArgsConstructor
 public class Player {
 
-    public Player() {
-        super();
-        // TODO Auto-generated constructor stub
-    }
+    private String name;
+    private int gameScore;
+    private boolean advantage;
+    private int tennisSetScore;
+    private int tieBreakScore;
+
 
     public Player(String name) {
         super();
+        this.name = name;
     }
 
-    public int getGameScore() {
-        return 0;
-    }
 
-    public boolean isAdvantage() {
-        return false;
-    }
-
-    public void setTennisSetScore(int i) {
-
-    }
-
-    public int getTennisSetScore() {
-        return 0;
-    }
 }
