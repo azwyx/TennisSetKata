@@ -14,4 +14,6 @@ public interface IManageTennisSetService {
     boolean hasWinner(TennisSet tennisSet);
 
     boolean tieBreakRuleActivated(TennisSet tennisSet);
+
+    Player getLeadPlayer(TennisSet tennisSet, Player firstPlayer, Player secondPlayer);
 }
