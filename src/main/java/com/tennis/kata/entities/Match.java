@@ -10,10 +10,12 @@ public class Match {
     private Player firstPlayer;
     private Player secondPlayer;
     private Game game;
+    private TennisSet tennisSet;
 
     public Match(Player firstPlayer, Player secondPlayer) {
         super();
         this.firstPlayer = firstPlayer;
         this.secondPlayer = secondPlayer;
     }
+
 }
