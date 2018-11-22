@@ -50,11 +50,13 @@ public class ManageTennisGameServiceTests {
 
     @Test
     public void thirtyShouldBeDescriptionForScore2AndfifteenForScore1() {
-        Player player1 = manageTennisGameService.winPoint(match, amine);
-        player1 = manageTennisGameService.winPoint(match, amine);
-        Player player2 = manageTennisGameService.winPoint(match, federer);
+        IntStream.rangeClosed(1, 2).forEach((Integer) -> {
+            manageTennisGameService.winPoint(match, amine);
+        });
 
-        assertThat(manageTennisGameService.getGameScore(match.getGame(), player1, player2)).isEqualTo("Game Score : Amine THIRTY - FIFTEEN Federer");
+        manageTennisGameService.winPoint(match, federer);
+
+        assertThat(manageTennisGameService.getGameScore(match.getGame(), match.getFirstPlayer(), match.getSecondPlayer())).isEqualTo("Game Score : Amine THIRTY - FIFTEEN Federer");
     }
 
     @Test
@@ -67,8 +69,6 @@ public class ManageTennisGameServiceTests {
         });
 
         assertThat(manageTennisGameService.getGameScore(match.getGame(), match.getFirstPlayer(), match.getSecondPlayer())).isEqualTo("Game Score : Amine FORTY - FORTY Federer");
-        assertThat(amine.getGameScore()).isEqualTo(3);
-        assertThat(match.getSecondPlayer().getGameScore()).isEqualTo(3);
     }
 
     @Test
@@ -98,8 +98,6 @@ public class ManageTennisGameServiceTests {
         manageTennisGameService.winPoint(match, amine);
         assertThat(manageTennisGameService.getGameScore(game, amine, federer)).isEqualTo("Game Score : Amine won this game");
         assertThat(manageTennisGameService.hasWinner(game)).isEqualTo(true);
-        assertThat(match.getFirstPlayer().getGameScore()).isEqualTo(0);
-        assertThat(match.getSecondPlayer().getGameScore()).isEqualTo(0);
     }
 
     @Test
@@ -149,8 +147,6 @@ public class ManageTennisGameServiceTests {
         Player player2 = manageTennisGameService.winPoint(match, amine);
         assertThat(manageTennisGameService.getGameScore(game, amine, federer)).isEqualTo("Game Score : Amine won this game");
         assertThat(manageTennisGameService.hasWinner(game)).isEqualTo(true);
-        assertThat(match.getFirstPlayer().getGameScore()).isEqualTo(0);
-        assertThat(match.getSecondPlayer().getGameScore()).isEqualTo(0);
         assertThat(player2.getTennisSetScore()).isEqualTo(1);
     }
 }

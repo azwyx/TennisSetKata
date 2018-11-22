@@ -27,7 +27,7 @@ public class ManageTennisGameServiceImpl implements IManageTennisGameService{
         if(hasWinner(game)) {
             return "Game Score : " + game.getWinnerName() + " won this game";
         }else if(firstPlayer.isAdvantage() || secondPlayer.isAdvantage()) {
-            return "Game Score : Advantage " + getLeadPlayer(game, firstPlayer, secondPlayer).getName();
+            return "Game Score : Advantage " + getLeadPlayer(firstPlayer, secondPlayer).getName();
         } else if(deuceRuleActivated(game) && firstPlayer.getGameScore() == 3) return "Game Score : Deuce";
 
         return "Game Score : " + firstPlayer.getName() + " " + getScoreDescription(firstPlayer.getGameScore()) + " - " + getScoreDescription(secondPlayer.getGameScore()) + " " + secondPlayer.getName();
@@ -43,7 +43,7 @@ public class ManageTennisGameServiceImpl implements IManageTennisGameService{
         } else {
             if(match.getFirstPlayer().getGameScore() == 3 && match.getSecondPlayer().getGameScore() == 3) player1.setAdvantage(true);
             else if (Math.abs(match.getFirstPlayer().getGameScore() - match.getSecondPlayer().getGameScore()) >= 1 &&
-                    getLeadPlayer(match.getGame(), match.getFirstPlayer(), match.getSecondPlayer()).equals(player1) &&
+                    getLeadPlayer(match.getFirstPlayer(), match.getSecondPlayer()).equals(player1) &&
                     player1.getGameScore() == 3) {
                 return winGame(match, player1);
             }else {
@@ -89,15 +89,16 @@ public class ManageTennisGameServiceImpl implements IManageTennisGameService{
         return PointsDescription.values()[gameScore].toString();
     }
 
-    public Player getLeadPlayer(Game game, Player firstPlayer, Player secondPlayer) {
-        if(firstPlayer.getGameScore() > secondPlayer.getGameScore() || firstPlayer.isAdvantage()) return firstPlayer;
-        else if(secondPlayer.getGameScore() > firstPlayer.getGameScore() || secondPlayer.isAdvantage()) return secondPlayer;
-        else return firstPlayer;
+    public Player getLeadPlayer(Player firstPlayer, Player secondPlayer) {
+        if(secondPlayer.getGameScore() > firstPlayer.getGameScore() || secondPlayer.isAdvantage()) return secondPlayer;
+
+        return firstPlayer;
     }
 
     public Player checkValidPlayer(Match match, Player player) {
         if (player.equals(match.getFirstPlayer())) return match.getFirstPlayer();
         else if(player.equals(match.getSecondPlayer())) return match.getSecondPlayer();
-        else throw new RuntimeException("Player not valid");
+
+        throw new RuntimeException("Player not valid");
     }
 }

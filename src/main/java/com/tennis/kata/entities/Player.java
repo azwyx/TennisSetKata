@@ -13,7 +13,6 @@ public class Player {
     private int tennisSetScore;
     private int tieBreakScore;
 
-
     public Player(String name) {
         super();
         this.name = name;

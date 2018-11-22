@@ -120,7 +120,6 @@ public class TennisKataIntegrationTests {
     }
 
     public void gameShouldBeWonByFedererAfterADeuce(Match match, Player player1, Player player2) {
-        Player firstPlayer, secondPlayer;
 
         IntStream.rangeClosed(1, 3).forEach((Integer) -> {
             managePlayerService.winBall(match, player1);
@@ -135,43 +134,38 @@ public class TennisKataIntegrationTests {
         assertThat(manageTennisGameService.hasWinner(match.getGame())).isEqualTo(false);
         assertThat(manageTennisGameService.deuceRuleActivated(match.getGame())).isEqualTo(false);
 
-        secondPlayer = managePlayerService.winBall(match, player2);
+        managePlayerService.winBall(match, player2);
         assertThat(manageTennisGameService.getGameScore(match.getGame(), player1, player2)).isEqualTo("Game Score : Advantage Federer");
-        assertThat(manageTennisGameService.deuceRuleActivated(match.getGame())).isEqualTo(false);
 
-        secondPlayer = managePlayerService.loseBall(match, player2);
+        managePlayerService.loseBall(match, player2);
         assertThat(manageTennisGameService.getGameScore(match.getGame(), player1, player2)).isEqualTo("Game Score : Deuce");
-        assertThat(managePlayerService.getPlayerGameScore(secondPlayer)).isEqualTo(3);
+        assertThat(managePlayerService.getPlayerGameScore(match.getSecondPlayer())).isEqualTo(3);
         assertThat(manageTennisGameService.deuceRuleActivated(match.getGame())).isEqualTo(true);
 
-        secondPlayer = managePlayerService.winBall(match, player2);
+        managePlayerService.winBall(match, player2);
         assertThat(manageTennisGameService.getGameScore(match.getGame(), player1, player2)).isEqualTo("Game Score : Advantage Federer");
         assertThat(manageTennisGameService.deuceRuleActivated(match.getGame())).isEqualTo(true);
         assertThat(manageTennisGameService.hasWinner(match.getGame())).isEqualTo(false);
 
-        secondPlayer = managePlayerService.winBall(match, player2);
+        managePlayerService.winBall(match, player2);
         assertThat(manageTennisGameService.getGameScore(match.getGame(), player1, player2)).isEqualTo("Game Score : Federer won this game");
         assertThat(manageTennisGameService.deuceRuleActivated(match.getGame())).isEqualTo(false);
         assertThat(manageTennisGameService.hasWinner(match.getGame())).isEqualTo(true);
     }
 
     public void twoPlayersShouldReachScoreOf5Games(Match match, final Player player1, final Player player2){
-        Player firstPlayer, secondPlayer;
-        IntStream.rangeClosed(1, 3).forEach((Integer) -> {
+        IntStream.rangeClosed(1, 4).forEach((Integer) -> {
             manageTennisGameService.winGame(match, player1);
         });
 
-        IntStream.rangeClosed(1, 3).forEach((Integer) -> {
+        IntStream.rangeClosed(1, 4).forEach((Integer) -> {
             manageTennisGameService.winGame(match, player2);
         });
-
-        firstPlayer = manageTennisGameService.winGame(match, player1);
-        secondPlayer = manageTennisGameService.winGame(match, player2);
 
         assertThat(managePlayerService.getPlayerTennisSetScore(player1)).isEqualTo(5);
         assertThat(managePlayerService.getPlayerTennisSetScore(player2)).isEqualTo(5);
         assertThat(manageTennisSetService.getTennisSetScore(match.getTennisSet(), player1, player2)).isEqualTo("Set Score : Amine 5 - 5 Federer");
-        assertThat(manageTennisSetService.tieBreakRuleActivated(match.getTennisSet())).isEqualTo(false);
+
     }
 
     public void tieBreakRuleShouldBeActivatedIfTwoThePlayersReachScoreOf6Games(Match match, final Player player1, final Player player2){
@@ -182,8 +176,9 @@ public class TennisKataIntegrationTests {
 
         assertThat(managePlayerService.getPlayerTennisSetScore(firstPlayer)).isEqualTo(6);
         assertThat(managePlayerService.getPlayerTennisSetScore(secondPlayer)).isEqualTo(6);
-        assertThat(manageTennisSetService.getTennisSetScore(match.getTennisSet(), player1, player2)).isEqualTo("Set Score : 6 - 6 (Go to Tie Break)");
         assertThat(manageTennisSetService.tieBreakRuleActivated(match.getTennisSet())).isEqualTo(true);
+
+        assertThat(manageTennisSetService.getTennisSetScore(match.getTennisSet(), player1, player2)).isEqualTo("Set Score : 6 - 6 (Go to Tie Break)");
         assertThat(manageTieBreakService.getTieBreakScore(match.getTennisSet(), player1, player2)).isEqualTo("Tie Break Score : Amine 0 / 0 Federer");
     }
 
@@ -204,7 +199,6 @@ public class TennisKataIntegrationTests {
     }
 
     public void amineGotTwoPointMoreThanFedererAndWonTheSetAndTheMatch(Match match, Player player1, Player player2) {
-        Player firstPlayer, secondPlayer;
 
         IntStream.rangeClosed(1, 2).forEach((Integer) -> {
             managePlayerService.winBall(match, player1);
@@ -214,19 +208,16 @@ public class TennisKataIntegrationTests {
             managePlayerService.winBall(match, player2);
         });
 
-        assertThat(managePlayerService.getPlayerTieBreakScore(match.getFirstPlayer())).isEqualTo(6);
-        assertThat(managePlayerService.getPlayerTieBreakScore(match.getSecondPlayer())).isEqualTo(5);
-
-        secondPlayer = managePlayerService.winBall(match, player2);
-        firstPlayer = managePlayerService.winBall(match, player1);
+        managePlayerService.winBall(match, player2);
+        managePlayerService.winBall(match, player1);
         assertThat(managePlayerService.getPlayerTieBreakScore(match.getFirstPlayer())).isEqualTo(7);
         assertThat(managePlayerService.getPlayerTieBreakScore(match.getSecondPlayer())).isEqualTo(6);
         assertThat(manageTennisSetService.hasWinner(match.getTennisSet())).isEqualTo(false);
 
-        firstPlayer = managePlayerService.winBall(match, player1);
-        assertThat(managePlayerService.getPlayerTieBreakScore(firstPlayer)).isEqualTo(8);
-        assertThat(managePlayerService.getPlayerTieBreakScore(secondPlayer)).isEqualTo(6);
-        assertThat(managePlayerService.getPlayerTennisSetScore(firstPlayer)).isEqualTo(7);
+        managePlayerService.winBall(match, player1);
+        assertThat(managePlayerService.getPlayerTieBreakScore(match.getFirstPlayer())).isEqualTo(8);
+        assertThat(managePlayerService.getPlayerTieBreakScore(match.getSecondPlayer())).isEqualTo(6);
+        assertThat(managePlayerService.getPlayerTennisSetScore(match.getFirstPlayer())).isEqualTo(7);
 
         assertThat(manageTieBreakService.getTieBreakScore(match.getTennisSet(), match.getFirstPlayer(), match.getSecondPlayer())).isEqualTo("Tie Break Score : Amine won the tie-break (8 / 6)");
         assertThat(manageTennisSetService.hasWinner(match.getTennisSet())).isEqualTo(true);

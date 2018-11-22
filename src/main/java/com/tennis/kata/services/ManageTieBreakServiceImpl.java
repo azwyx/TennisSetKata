@@ -52,6 +52,7 @@ public class ManageTieBreakServiceImpl implements IManageTieBreakService{
     public Player checkValidPlayer(Match match, Player player) {
         if (player.equals(match.getFirstPlayer())) return match.getFirstPlayer();
         else if(player.equals(match.getSecondPlayer())) return match.getSecondPlayer();
-        else throw new RuntimeException("Player not valid");
+
+        throw new RuntimeException("Player not valid");
     }
 }

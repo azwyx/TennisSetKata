@@ -63,10 +63,7 @@ public class ManageTennisMatchServiceTests {
         assertThat(match.getSecondPlayer().getGameScore()).isEqualTo(0);
 
         assertThat(match.getFirstPlayer().getTennisSetScore()).isEqualTo(0);
-        assertThat(match.getSecondPlayer().getTennisSetScore()).isEqualTo(0);
-
         assertThat(match.getFirstPlayer().getTieBreakScore()).isEqualTo(0);
-        assertThat(match.getSecondPlayer().getTieBreakScore()).isEqualTo(0);
     }
 
     @Test
